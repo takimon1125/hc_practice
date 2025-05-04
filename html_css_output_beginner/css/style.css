@@ -5,6 +5,7 @@ p {
 
 h2 {
   font-size: 30px;
+  padding-bottom: 5px;
 }
 
 /* container */
@@ -80,7 +81,9 @@ header li a {
 
 .myprofile img {
   border-radius: 50%;
+  height: 100px;
   margin: 0 auto;
+  width: 100px;
 }
 
 .myprofile-imgs {

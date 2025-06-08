@@ -63,19 +63,6 @@ class VendingMachine:
         """
         self.__sales = sales
 
-    def get_stock_list(self):
-        """
-        自動販売機の在庫を表示
-
-        Returns:
-            list[dict]: 各ジュースの {"name": str, "count": int} 形式の辞書のリスト。
-        """
-        # juiceの名前を取得後にsetで重複を削除
-        juice_names = set([juice.name for juice in self.__stock])
-        # 名前から在庫の辞書型のリストを生成
-        vending_machin_stock_list = [{"name": name, "count": len(list(filter(lambda x: x.name == name, self.__stock)))} for name in juice_names]
-        return vending_machin_stock_list
-    
     def get_can_purchase_list(self):
         """
         購入可能なジュースのリスト

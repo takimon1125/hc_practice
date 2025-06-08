@@ -25,12 +25,8 @@ if __name__ == "__main__":
     print(f"ジュースの名前:{pepsi.name}, ジュースの値段:{pepsi.price}円")
     # 自販機インスタンスを作成(ペプシ,150円)
     vending_machine = VendingMachine()
-    juice_stocks = vending_machine.get_stock_list()
-    print(f"juice_stockを出力:{juice_stocks}")
-    print("--ジュースの在庫--")
-    for juice_stock in juice_stocks:
-        print(f"名前:{juice_stock["name"]}、本数:{juice_stock["count"]}")
-    print("------------------")
+    # 自動販売機の在庫のリスト[Juice()]
+    juice_stocks = vending_machine.stock
 
 
     # ステップ3　購入処理
@@ -54,15 +50,10 @@ if __name__ == "__main__":
     print("----ステップ4 機能拡張----")
     vending_machine2 = VendingMachine()
     print(f"購入可能なドリンクのリスト：{vending_machine2.get_can_purchase_list()}")
-    print("ペプシ2を追加")
-    pepsi2 = Juice("ペプシ2", 150)
+    print("レッドブルーを追加")
+    pepsi2 = Juice("レッドブルー", 150)
     vending_machine2.add_stock(pepsi2)
     print(f"購入可能なドリンクのリスト：{vending_machine2.get_can_purchase_list()}")
-    print("--ジュースの在庫--")
-    juice_stocks2 = vending_machine2.get_stock_list()
-    for juice_stock2 in juice_stocks2:
-        print(f"名前:{juice_stock2["name"]}、本数:{juice_stock2["count"]}")
-    print("------------------")
 
     # モンスターを購入
     print("1000円をチャージします。")

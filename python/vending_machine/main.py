@@ -42,6 +42,7 @@ if __name__ == "__main__":
             print("ぺプシを一本買います。")
             vending_machine.purchase("ペプシ", suica)
             print(f"自販機の売上：{vending_machine.sales}円")
+            print(f"現在のチャージ残高:{suica.deposit}円")
     except PurchaseError as e:
         print(e)
 
@@ -70,11 +71,12 @@ if __name__ == "__main__":
             print("モンスターを一本買います。")
             vending_machine2.purchase("モンスター", suica)
             print(f"自販機の売上：{vending_machine2.sales}円")
+            print(f"現在のチャージ残高:{suica.deposit}円")
     except PurchaseError as e:
         print(e)
 
     # いろはすを購入
-    print("300円をチャージします。")
+    print("1300円をチャージします。")
     suica.charge_deposit(1300)
     print("いろはすを購入できるのかチェック")
     if vending_machine2.check_purchase_juice("いろはす"):
@@ -88,5 +90,6 @@ if __name__ == "__main__":
             print("いろはすを一本買います。")
             vending_machine2.purchase("いろはす", suica)
             print(f"自販機の売上：{vending_machine2.sales}円")
+            print(f"現在のチャージ残高:{suica.deposit}円")
     except PurchaseError as e:
         print(e)

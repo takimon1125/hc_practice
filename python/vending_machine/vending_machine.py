@@ -53,15 +53,6 @@ class VendingMachine:
             int: 売上金額
         """ 
         return self.__sales
-    
-    @sales.setter
-    def sales(self, sales):
-        """
-        [setter]売上金額をセットする
-
-        :param sales(int): 売上金額
-        """
-        self.__sales = sales
 
     def get_can_purchase_list(self):
         """

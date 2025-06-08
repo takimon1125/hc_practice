@@ -26,16 +26,7 @@ class Suica:
             int: 現在の預かり金
         """ 
         return self.__deposit
-    
-    @deposit.setter
-    def deposit(self, deposit):
-        """
-        [setter]Suicaに預かり金をセットする
 
-        :param deposit(int): 預かり金
-        """
-        self.__deposit = deposit
- 
     def charge_deposit(self, amount):
         """
         Suicaに金額をチャージする。

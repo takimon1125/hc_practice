@@ -20,6 +20,9 @@ class VendingMachine:
         # 初期在庫を設定
         for _ in range(5):
             self.__stock.append(Juice("ペプシ", 150))
+            # step4 3種類管理のために追加
+            self.__stock.append(Juice("モンスター", 230))
+            self.__stock.append(Juice("いろはす", 120))
         self.__sales = 0
 
     @property
@@ -65,17 +68,30 @@ class VendingMachine:
         自動販売機の在庫を表示
 
         Returns:
-            list(dict)
+            list[dict]: 各ジュースの {"name": str, "count": int} 形式の辞書のリスト。
         """
         # juiceの名前を取得後にsetで重複を削除
         juice_names = set([juice.name for juice in self.__stock])
         # 名前から在庫の辞書型のリストを生成
         vending_machin_stock_list = [{"name": name, "count": len(list(filter(lambda x: x.name == name, self.__stock)))} for name in juice_names]
         return vending_machin_stock_list
+    
+    def get_can_purchase_list(self):
+        """
+        購入可能なジュースのリスト
+
+        Returns:
+            list(str)
+        """
+        # juiceの名前を取得後にsetで重複を削除。その後にリストに変換
+        juice_names = list(set([juice.name for juice in self.__stock]))
+        return juice_names
 
     def check_purchase_juice(self, juice_name):
         """
-        juiceが購入できるか判定。
+        ジュースの名前から購入できるか判定。
+
+        :param juice_name(str): ジュースの名前
 
         Returns:
             bool
@@ -84,7 +100,7 @@ class VendingMachine:
     
     def purchase(self, juice_name, suica):
         """
-        スイカを使って自販機からジュースを購入する。
+        Suicaを使って自販機からジュースを購入する。
         ジュースの在庫を減らす
         売り上げ金額を増やす
         Suicaのチャージ残高を減らす
@@ -106,3 +122,11 @@ class VendingMachine:
             suica.pay(juice.price)
         else:
             raise PurchaseError("チャージ残高が足りません。")
+    
+    def add_stock(self, juice):
+        """
+        ジュースの在庫を追加
+
+        :param juice(Juice): Juiceインスタンス
+        """
+        self.__stock.append(juice)

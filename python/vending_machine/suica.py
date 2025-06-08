@@ -9,10 +9,11 @@ class Suica:
         charge(amount): 任意の金額をチャージできる。
                         100円未満の場合はエラーが出る。
         get_deposit: 現在のチャージ残高を返す
+        pay(amount): 任意の金額を支払う
     """
     def __init__(self):
         """
-        Suicaオブジェクトを初期化する。デフォルトでデポジットが500円チャージされる
+        Suicaを初期化する。デフォルトでデポジットが500円チャージされる
         """
         self.__deposit = 500
 
@@ -47,3 +48,16 @@ class Suica:
         if amount < 100:
             raise ValueError("100円未満をチャージできません。100円以上の金額でチャージしてください。")
         self.__deposit += amount
+
+    def pay(self, amount):
+        """
+        Suicaから金額を支払う
+
+        :param amount(int): 支払う金額
+
+        raise: 
+            ValueError: チャージ金額が100円未満の場合。
+        """
+        if self.__deposit < amount:
+            raise ValueError("支払う金額の方が多いです。suicaをチャージしてください。")
+        self.__deposit -= amount

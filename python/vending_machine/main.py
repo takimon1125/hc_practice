@@ -21,28 +21,28 @@ if __name__ == "__main__":
     print("----ステップ2 ジュースの管理----")
     pepsi = Juice("ペプシ", 150)
     print(f"ジュースの名前:{pepsi.name}, ジュースの値段:{pepsi.price}円")
-    vending_machine = VendingMachine(pepsi, 5)
-    juice_stock = vending_machine.juices_stock
-    print(f"juice_stockを出力:{juice_stock}")
-    print(f"在庫は{juice_stock["name"]}: {juice_stock["count"]}個")
+    # 自販機インスタンスを作成(ペプシ,150円)
+    vending_machine = VendingMachine()
+    juice_stocks = vending_machine.get_stock_list()
+    print(f"juice_stockを出力:{juice_stocks}")
+    print("--ジュースの在庫--")
+    for juice_stock in juice_stocks:
+        print(f"名前:{juice_stock["name"]}、本数:{juice_stock["count"]}")
+    print("------------------")
 
     # ステップ3　購入処理
     print("----ステップ3 購入処理----")
     print("ペプシを購入できるのかチェック")
-    if vending_machine.check_purchase_juice():
+    if vending_machine.check_purchase_juice("ペプシ"):
         print("ペプシを購入できます")
     else:
         print("ペプシを購入できない")
-    vending_machine.purchase(suica)
+    vending_machine.purchase("ペプシ", suica)
     print(f"自販機の売上：{vending_machine.sales}円")
     for _ in range(3):
-        vending_machine.purchase(suica)
+        vending_machine.purchase("ペプシ", suica)
     print(f"自販機の売上：{vending_machine.sales}円")
     try:
-        vending_machine.purchase(suica)
+        vending_machine.purchase("ペプシ", suica)
     except PurchaseError as e:
         print(e)
-    if vending_machine.check_purchase_juice():
-        print("ペプシを購入できます。")
-    else:
-        print("ペプシを購入できない。")

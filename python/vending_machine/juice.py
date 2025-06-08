@@ -8,7 +8,7 @@ class Juice:
     """
     def __init__(self, name, price):
         """
-        Juiceオブジェクトを初期化する。
+        Juiceを初期化する。
 
         :param name(str): 名前
         :param price(int): 値段

@@ -1,3 +1,4 @@
+from juice import Juice
 from purchase_error import PurchaseError
 
 class VendingMachine:
@@ -5,37 +6,40 @@ class VendingMachine:
     VendingMachine(自販機)を表すクラスです。
 
     Attribute:
-        __juices_stock: ジュースの在庫
+        __stock: ジュースの在庫
         __sales: 売上金額
     """
-    def __init__(self, juice, count):
+    def __init__(self):
         """
-        VendingMachineオブジェクトを初期化する。
+        VendingMachineを初期化する。
 
         :param juice(Juice): Juiceクラス
         :param count(str): 個数
         """
-        self.__juices_stock = {"name": juice.name, "price": juice.price, "count": count}
+        self.__stock = []
+        # 初期在庫を設定
+        for _ in range(5):
+            self.__stock.append(Juice("ペプシ", 150))
         self.__sales = 0
 
     @property
-    def juices_stock(self):
+    def stock(self):
         """
         [getter]在庫を取得する。
 
         Returns:
             int: 値段
         """ 
-        return self.__juices_stock
+        return self.__stock
     
-    @juices_stock.setter
-    def juices_stock(self, juices_stock):
+    @stock.setter
+    def stock(self, stock):
         """
         [setter]在庫をセットする
 
-        :param juices_stock(dictionary): 在庫
+        :param stock(list): 在庫
         """
-        self.__juices_stock = juices_stock
+        self.__stock = stock
 
     @property
     def sales(self):
@@ -56,17 +60,29 @@ class VendingMachine:
         """
         self.__sales = sales
 
+    def get_stock_list(self):
+        """
+        自動販売機の在庫を表示
 
-    def check_purchase_juice(self):
+        Returns:
+            list(dict)
+        """
+        # juiceの名前を取得後にsetで重複を削除
+        juice_names = set([juice.name for juice in self.__stock])
+        # 名前から在庫の辞書型のリストを生成
+        vending_machin_stock_list = [{"name": name, "count": len(list(filter(lambda x: x.name == name, self.__stock)))} for name in juice_names]
+        return vending_machin_stock_list
+
+    def check_purchase_juice(self, juice_name):
         """
         juiceが購入できるか判定。
 
         Returns:
             bool
         """
-        return self.__juices_stock["count"] > 0
+        return len(list(filter(lambda x: x.name == juice_name, self.__stock))) > 0
     
-    def purchase(self, suica):
+    def purchase(self, juice_name, suica):
         """
         スイカを使って自販機からジュースを購入する。
         ジュースの在庫を減らす
@@ -78,9 +94,15 @@ class VendingMachine:
         raise: 
         PurchaseError: チャージ残高が足りない場合もしくは在庫がない場合。
         """
-        if self.__juices_stock["price"] <= suica.deposit and self.__juices_stock["count"] > 0:
-            self.__juices_stock["count"] -= 1
-            self.__sales += self.__juices_stock["price"]
-            suica.deposit -= self.__juices_stock["price"]
+        # juiceの名前から該当するリストを抽出
+        juice_stock = list(filter(lambda x: x.name == juice_name, self.__stock))
+        if not len(juice_stock) > 0:
+            raise PurchaseError("在庫が足りません。") 
+        if juice_stock[0].price <= suica.deposit:
+            # 名前から抽出したジュースを在庫から削除
+            juice = juice_stock.pop(0)
+            self.__stock.remove(juice)
+            self.__sales += juice.price
+            suica.pay(juice.price)
         else:
-            raise PurchaseError("チャージ残高が足りないもしくは在庫が足りません。")
+            raise PurchaseError("チャージ残高が足りません。")

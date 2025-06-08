@@ -1,0 +1,49 @@
+class Suica:
+    """
+    Suicaを表すクラスです。
+
+    Attribute:
+        __deposit: 預かり金
+
+    method:
+        charge(amount): 任意の金額をチャージできる。
+                        100円未満の場合はエラーが出る。
+        get_deposit: 現在のチャージ残高を返す
+    """
+    def __init__(self):
+        """
+        Suicaオブジェクトを初期化する。デフォルトでデポジットが500円チャージされる
+        """
+        self.__deposit = 500
+
+    @property
+    def deposit(self):
+        """
+        [getter]現在の預かり金を取得する。
+
+        Returns:
+            int: 現在の預かり金
+        """ 
+        return self.__deposit
+    
+    @deposit.setter
+    def deposit(self, deposit):
+        """
+        [setter]Suicaに預かり金をセットする
+
+        :param deposit(int): 預かり金
+        """
+        self.__deposit = deposit
+ 
+    def charge_deposit(self, amount):
+        """
+        Suicaに金額をチャージする。
+
+        :param amount(int): チャージする金額
+
+        raise: 
+            ValueError: チャージ金額が100円未満の場合。
+        """
+        if amount < 100:
+            raise ValueError("100円未満をチャージできません。100円以上の金額でチャージしてください。")
+        self.__deposit += amount

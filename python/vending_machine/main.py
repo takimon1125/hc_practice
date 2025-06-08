@@ -1,4 +1,6 @@
 from suica import Suica
+from juice import Juice
+from vending_machine import VendingMachine
 
 if __name__ == "__main__":
     # ステップ1
@@ -13,3 +15,12 @@ if __name__ == "__main__":
     print("100円をチャージします。")
     suica.charge_deposit(100)
     print(f"現在のチャージ残高:{suica.deposit}円")
+
+    # ステップ2
+    print("----ステップ2 ジュースの管理----")
+    pepsi = Juice("ペプシ", 150)
+    print(f"ジュースの名前:{pepsi.name}, ジュースの値段:{pepsi.price}円")
+    vending_machine = VendingMachine(pepsi, 5)
+    juice_stock = vending_machine.juices_stock
+    print(f"juice_stockを出力:{juice_stock}")
+    print(f"在庫は{juice_stock["name"]}: {juice_stock["count"]}個")

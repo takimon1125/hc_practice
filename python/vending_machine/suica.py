@@ -27,7 +27,7 @@ class Suica:
         """ 
         return self.__deposit
 
-    def charge_deposit(self, amount):
+    def charge(self, amount):
         """
         Suicaに金額をチャージする。
 

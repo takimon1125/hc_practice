@@ -10,11 +10,11 @@ if __name__ == "__main__":
     print(f"現在のチャージ残高:{suica.deposit}円")
     print("99円をチャージします。")
     try:
-       suica.charge_deposit(99)
+       suica.charge(99)
     except ValueError as e:
         print(e)
     print("100円をチャージします。")
-    suica.charge_deposit(100)
+    suica.charge(100)
     print(f"現在のチャージ残高:{suica.deposit}円")
 
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     # モンスターを購入
     print("1000円をチャージします。")
-    suica.charge_deposit(900)
+    suica.charge(900)
     print("モンスターを購入できるのかチェック")
     if vending_machine2.check_purchase_juice("モンスター"):
         print("モンスターを購入できます")
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     # いろはすを購入
     print("1300円をチャージします。")
-    suica.charge_deposit(1300)
+    suica.charge(1300)
     print("いろはすを購入できるのかチェック")
     if vending_machine2.check_purchase_juice("いろはす"):
         print("いろはすを購入できます")

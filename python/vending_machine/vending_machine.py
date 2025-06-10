@@ -67,14 +67,22 @@ class VendingMachine:
 
     def check_purchase_juice(self, juice_name):
         """
-        ジュースの名前から購入できるか判定。
+        ジュースの名前からジュースが存在する場合には一つのジュースを返却する。
+        存在しない場合はエラーが発生
 
         :param juice_name(str): ジュースの名前
 
         Returns:
-            bool
+            Juice()
+
+        raise: 
+            PurchaseError: ジュースが存在しない場合
         """
-        return len(list(filter(lambda x: x.name == juice_name, self.__stock))) > 0
+        juice_stock_list = list(filter(lambda x: x.name == juice_name, self.__stock))
+        if len(juice_stock_list) == 0:
+            raise PurchaseError(f"{juice_name}の在庫が足りません。")
+        # 1つのJuiceを返却
+        return juice_stock_list[0]
     
     def purchase(self, juice_name, suica):
         """
@@ -86,20 +94,15 @@ class VendingMachine:
         :param suica(Suica): Suicaインスタンス
         
         raise: 
-        PurchaseError: チャージ残高が足りない場合もしくは在庫がない場合。
+            PurchaseError: チャージ残高が足りない場合もしくは在庫がない場合。
         """
-        # juiceの名前から該当するリストを抽出
-        juice_stock = list(filter(lambda x: x.name == juice_name, self.__stock))
-        if not len(juice_stock) > 0:
-            raise PurchaseError("在庫が足りません。") 
-        if juice_stock[0].price <= suica.deposit:
-            # 名前から抽出したジュースを在庫から削除
-            juice = juice_stock.pop(0)
-            self.__stock.remove(juice)
-            self.__sales += juice.price
-            suica.pay(juice.price)
-        else:
+        juice = self.check_purchase_juice(juice_name)
+        if juice.price > suica.deposit:
             raise PurchaseError("チャージ残高が足りません。")
+        # 名前から抽出したジュースを在庫から削除
+        self.__stock.remove(juice)
+        self.__sales += juice.price
+        suica.pay(juice.price)
     
     def add_stock(self, juice):
         """
